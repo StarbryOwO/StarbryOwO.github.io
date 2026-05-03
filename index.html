@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>我的个人网站</title>
+  <meta name="description" content="一个综合型个人网站，展示个人介绍、作品项目、文章和联系方式。" />
+  <style>
+    :root {
+      --bg: #f6f4ef;
+      --card: #ffffff;
+      --text: #1f2933;
+      --muted: #667085;
+      --line: #e5e7eb;
+      --primary: #1f3a5f;
+      --primary-dark: #162a46;
+      --accent: #d49a3a;
+      --radius: 22px;
+      --shadow: 0 20px 60px rgba(31, 58, 95, 0.12);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(212, 154, 58, 0.20), transparent 34%),
+        radial-gradient(circle at top right, rgba(31, 58, 95, 0.15), transparent 30%),
+        var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+
+    .container {
+      width: min(1120px, calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(16px);
+      background: rgba(246, 244, 239, 0.78);
+      border-bottom: 1px solid rgba(229, 231, 235, 0.8);
+    }
+
+    .nav {
+      height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: var(--primary);
+    }
+
+    .brand-mark {
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      box-shadow: 0 10px 24px rgba(31, 58, 95, 0.24);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nav-links a {
+      padding: 10px 14px;
+      border-radius: 999px;
+      color: var(--muted);
+      font-size: 15px;
+      transition: 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      background: rgba(31, 58, 95, 0.08);
+      color: var(--primary);
+    }
+
+    .hero { padding: 88px 0 56px; }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 48px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(31, 58, 95, 0.08);
+      color: var(--primary);
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 22px;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--accent);
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(44px, 7vw, 78px);
+      line-height: 1.04;
+      letter-spacing: -0.07em;
+      color: var(--primary-dark);
+    }
+
+    .hero p {
+      margin: 24px 0 0;
+      max-width: 680px;
+      color: var(--muted);
+      font-size: 20px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 34px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 0 20px;
+      border-radius: 999px;
+      font-weight: 750;
+      transition: 0.2s ease;
+    }
+
+    .button.primary {
+      color: #fff;
+      background: var(--primary);
+      box-shadow: 0 14px 30px rgba(31, 58, 95, 0.22);
+    }
+
+    .button.primary:hover {
+      transform: translateY(-2px);
+      background: var(--primary-dark);
+    }
+
+    .button.secondary {
+      color: var(--primary);
+      background: rgba(255, 255, 255, 0.74);
+      border: 1px solid rgba(31, 58, 95, 0.12);
+    }
+
+    .button.secondary:hover {
+      transform: translateY(-2px);
+      background: #fff;
+    }
+
+    .profile-card {
+      padding: 28px;
+      border-radius: 32px;
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      box-shadow: var(--shadow);
+    }
+
+    .avatar {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      border-radius: 26px;
+      background:
+        linear-gradient(135deg, rgba(31, 58, 95, 0.85), rgba(212, 154, 58, 0.85)),
+        url("https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=900&q=80");
+      background-size: cover;
+      background-position: center;
+    }
+
+    .profile-meta {
+      margin-top: 22px;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .stat {
+      padding: 16px;
+      border-radius: 18px;
+      background: #fff;
+      border: 1px solid var(--line);
+    }
+
+    .stat strong {
+      display: block;
+      color: var(--primary);
+      font-size: 24px;
+      line-height: 1.1;
+    }
+
+    .stat span {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    section { padding: 72px 0; }
+
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 24px;
+      margin-bottom: 28px;
+    }
+
+    .section-head h2 {
+      margin: 0;
+      font-size: clamp(30px, 4vw, 46px);
+      line-height: 1.1;
+      letter-spacing: -0.05em;
+      color: var(--primary-dark);
+    }
+
+    .section-head p {
+      margin: 0;
+      max-width: 520px;
+      color: var(--muted);
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+
+    .card {
+      padding: 26px;
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.82);
+      border: 1px solid rgba(229, 231, 235, 0.9);
+      box-shadow: 0 10px 34px rgba(31, 58, 95, 0.06);
+      transition: 0.2s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 18px 44px rgba(31, 58, 95, 0.12);
+    }
+
+    .card h3 {
+      margin: 0 0 10px;
+      font-size: 22px;
+      letter-spacing: -0.03em;
+      color: var(--primary-dark);
+    }
+
+    .card p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .tag-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 18px;
+    }
+
+    .tag {
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(31, 58, 95, 0.08);
+      color: var(--primary);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .about-wrap {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 24px;
+      align-items: stretch;
+    }
+
+    .about-panel {
+      padding: 34px;
+      border-radius: 28px;
+      color: #fff;
+      background: linear-gradient(135deg, var(--primary), #274e7a);
+      box-shadow: var(--shadow);
+    }
+
+    .about-panel h2 {
+      margin: 0 0 18px;
+      font-size: 38px;
+      line-height: 1.1;
+      letter-spacing: -0.05em;
+    }
+
+    .about-panel p {
+      color: rgba(255, 255, 255, 0.82);
+      margin: 0;
+    }
+
+    .timeline {
+      display: grid;
+      gap: 14px;
+    }
+
+    .timeline-item {
+      padding: 22px;
+      border-radius: 20px;
+      background: #fff;
+      border: 1px solid var(--line);
+    }
+
+    .timeline-item small {
+      color: var(--accent);
+      font-weight: 800;
+    }
+
+    .timeline-item h3 {
+      margin: 6px 0 6px;
+      color: var(--primary-dark);
+    }
+
+    .project-card {
+      min-height: 260px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .project-number {
+      width: 44px;
+      height: 44px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      background: var(--primary);
+      font-weight: 900;
+      margin-bottom: 26px;
+    }
+
+    .article {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .article time {
+      color: var(--accent);
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .contact-box {
+      padding: 42px;
+      border-radius: 32px;
+      background: linear-gradient(135deg, rgba(31, 58, 95, 0.95), rgba(22, 42, 70, 0.95));
+      color: #fff;
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 28px;
+      align-items: center;
+      box-shadow: var(--shadow);
+    }
+
+    .contact-box h2 {
+      margin: 0 0 12px;
+      font-size: clamp(32px, 5vw, 52px);
+      line-height: 1.05;
+      letter-spacing: -0.06em;
+    }
+
+    .contact-box p {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.78);
+      font-size: 18px;
+    }
+
+    .contact-links {
+      display: grid;
+      gap: 12px;
+    }
+
+    .contact-links a {
+      padding: 16px 18px;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      color: #fff;
+      transition: 0.2s ease;
+    }
+
+    .contact-links a:hover {
+      background: rgba(255, 255, 255, 0.18);
+      transform: translateX(4px);
+    }
+
+    footer {
+      padding: 34px 0;
+      color: var(--muted);
+      border-top: 1px solid var(--line);
+      text-align: center;
+    }
+
+    @media (max-width: 860px) {
+      .hero-grid,
+      .about-wrap,
+      .contact-box,
+      .grid-2,
+      .grid-3 {
+        grid-template-columns: 1fr;
+      }
+
+      .nav {
+        height: auto;
+        padding: 16px 0;
+        align-items: flex-start;
+      }
+
+      .nav-links {
+        justify-content: flex-end;
+        flex-wrap: wrap;
+      }
+
+      .section-head { display: block; }
+      .section-head p { margin-top: 12px; }
+    }
+
+    @media (max-width: 560px) {
+      .container {
+        width: min(100% - 28px, 1120px);
+      }
+
+      .nav { display: block; }
+
+      .nav-links {
+        margin-top: 12px;
+        justify-content: flex-start;
+      }
+
+      .hero { padding-top: 56px; }
+
+      .profile-meta {
+        grid-template-columns: 1fr;
+      }
+
+      .card,
+      .about-panel,
+      .contact-box {
+        padding: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container nav">
+      <a class="brand" href="#top" aria-label="返回首页">
+        <span class="brand-mark">我</span>
+        <span>个人网站</span>
+      </a>
+      <nav class="nav-links" aria-label="主导航">
+        <a href="#about">关于我</a>
+        <a href="#projects">作品</a>
+        <a href="#blog">文章</a>
+        <a href="#contact">联系</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <span class="eyebrow">个人主页 / 作品集 / 博客</span>
+          <h1>你好，我是<br />你的名字。</h1>
+          <p>
+            我专注于产品设计、前端开发和内容创作。这里记录我的项目、文章、学习笔记，以及一些长期思考。
+          </p>
+          <div class="hero-actions">
+            <a class="button primary" href="#projects">查看作品</a>
+            <a class="button secondary" href="#contact">联系我</a>
+          </div>
+        </div>
+
+        <aside class="profile-card" aria-label="个人概览">
+          <div class="avatar" role="img" aria-label="个人头像占位图"></div>
+          <div class="profile-meta">
+            <div class="stat"><strong>3+</strong><span>精选项目</span></div>
+            <div class="stat"><strong>12</strong><span>文章笔记</span></div>
+            <div class="stat"><strong>5</strong><span>核心技能</span></div>
+            <div class="stat"><strong>∞</strong><span>持续学习</span></div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section id="about">
+      <div class="container about-wrap">
+        <div class="about-panel">
+          <h2>关于我</h2>
+          <p>
+            我喜欢把复杂问题拆解成清晰、可执行的方案，并通过设计、技术和文字把想法表达出来。
+            这个网站会持续更新我的作品、文章和个人成长记录。
+          </p>
+        </div>
+
+        <div class="timeline">
+          <div class="timeline-item">
+            <small>现在</small>
+            <h3>正在探索的方向</h3>
+            <p>产品设计、前端开发、AI 工具、个人知识管理和数字创作。</p>
+          </div>
+          <div class="timeline-item">
+            <small>技能</small>
+            <h3>我常用的工具</h3>
+            <p>HTML、CSS、JavaScript、Figma、Notion、Markdown。</p>
+          </div>
+          <div class="timeline-item">
+            <small>目标</small>
+            <h3>长期建设个人品牌</h3>
+            <p>用作品证明能力，用文章沉淀思考，用网站连接更多机会。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="projects">
+      <div class="container">
+        <div class="section-head">
+          <h2>精选作品</h2>
+          <p>这里可以放你的课程项目、设计作品、代码项目、摄影作品、研究报告或商业案例。</p>
+        </div>
+
+        <div class="grid-3">
+          <article class="card project-card">
+            <div>
+              <div class="project-number">01</div>
+              <h3>个人预算管理 App</h3>
+              <p>一个帮助用户记录收入、支出和储蓄目标的产品原型，重点关注清晰的信息架构和移动端体验。</p>
+            </div>
+            <div class="tag-list">
+              <span class="tag">产品设计</span>
+              <span class="tag">Figma</span>
+              <span class="tag">原型</span>
+            </div>
+          </article>
+
+          <article class="card project-card">
+            <div>
+              <div class="project-number">02</div>
+              <h3>学习笔记系统</h3>
+              <p>基于 Notion 和 Markdown 的个人知识管理系统，用于整理课程、阅读、项目复盘和灵感。</p>
+            </div>
+            <div class="tag-list">
+              <span class="tag">知识管理</span>
+              <span class="tag">Notion</span>
+              <span class="tag">效率</span>
+            </div>
+          </article>
+
+          <article class="card project-card">
+            <div>
+              <div class="project-number">03</div>
+              <h3>个人网站设计</h3>
+              <p>一个综合型个人网站，用来展示个人介绍、项目作品、文章笔记和联系方式。</p>
+            </div>
+            <div class="tag-list">
+              <span class="tag">HTML</span>
+              <span class="tag">CSS</span>
+              <span class="tag">网站</span>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="blog">
+      <div class="container">
+        <div class="section-head">
+          <h2>最新文章</h2>
+          <p>先用静态文章列表即可。以后文章多了，可以升级为 Astro、Next.js 或其他博客系统。</p>
+        </div>
+
+        <div class="grid-3">
+          <article class="card article">
+            <time datetime="2026-05-01">2026.05.01</time>
+            <h3>我为什么要做个人网站</h3>
+            <p>记录建立个人网站的动机、目标和第一版规划。</p>
+          </article>
+
+          <article class="card article">
+            <time datetime="2026-04-18">2026.04.18</time>
+            <h3>如何整理一个项目复盘</h3>
+            <p>用背景、目标、过程、结果和反思五个部分梳理项目经验。</p>
+          </article>
+
+          <article class="card article">
+            <time datetime="2026-04-02">2026.04.02</time>
+            <h3>我的学习工具箱</h3>
+            <p>介绍我常用的笔记、设计、开发和效率工具。</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="skills">
+      <div class="container">
+        <div class="section-head">
+          <h2>能力标签</h2>
+          <p>这里可以展示你的专业方向，让访问者快速理解你的能力结构。</p>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <h3>设计与表达</h3>
+            <p>界面设计、信息架构、视觉表达、内容写作、项目展示。</p>
+            <div class="tag-list">
+              <span class="tag">UI Design</span>
+              <span class="tag">Writing</span>
+              <span class="tag">Presentation</span>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>技术与搭建</h3>
+            <p>静态网站、前端页面、基础交互、部署上线、持续维护。</p>
+            <div class="tag-list">
+              <span class="tag">HTML</span>
+              <span class="tag">CSS</span>
+              <span class="tag">JavaScript</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="container">
+        <div class="contact-box">
+          <div>
+            <h2>欢迎联系我</h2>
+            <p>如果你对我的作品、文章或合作机会感兴趣，可以通过下面的方式找到我。</p>
+          </div>
+          <div class="contact-links">
+            <a href="mailto:yourname@example.com">Email：yourname@example.com</a>
+            <a href="https://github.com/yourname" target="_blank" rel="noreferrer">GitHub：github.com/yourname</a>
+            <a href="https://www.linkedin.com/in/yourname" target="_blank" rel="noreferrer">LinkedIn：linkedin.com/in/yourname</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">© 2026 你的名字. Built with HTML & CSS.</div>
+  </footer>
+</body>
+</html>
